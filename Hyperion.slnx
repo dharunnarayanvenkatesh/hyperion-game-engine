@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/Hyperion.Engine/Hyperion.Engine.csproj" />
+  <Project Path="src/Hyperion.Sandbox/Hyperion.Sandbox.csproj" />
+</Solution>
