@@ -20,18 +20,24 @@ testable layer at a time.
 - Entity, world, and transform model
 - Free-fly perspective camera
 - Keyboard and mouse input
-- Cube and plane primitive meshes
+- Cube, plane, and generated UV-sphere primitive meshes
 - Depth testing and back-face culling
 - 4x multisample anti-aliasing
-- Surface normals and directional lighting
+- Configurable real-time point lights
+- Cook–Torrance metallic/roughness PBR shading
 - Metallic and roughness material inputs
-- Filmic-style tone mapping and gamma correction
+- ACES-style tone mapping and gamma correction
 - Separate reusable engine and sandbox projects
+- Cached `.gltf`/`.glb` geometry and PBR-factor import
+- Automatic mesh bounds, spatial partitioning, and camera culling
+- Central package versions, strict analyzers, and repository-wide code style
 
 ## Screenshot
 
-The current sandbox renders two animated, lit cubes above a ground plane. A
-render gallery will be added as the visual pipeline develops.
+![Hyperion PBR Laboratory](docs/images/hyperion-pbr-laboratory.png)
+
+The current PBR laboratory renders a polished hero sphere, four material
+samples, an animated light rig, a glTF pipeline fixture, and a graphite stage.
 
 ## Requirements
 
@@ -77,19 +83,27 @@ src/
     Scene/      World, entities, and transforms
   Hyperion.Sandbox/
     Program.cs  Demo scene and engine integration example
+assets/         Runtime assets and importer fixtures
+docs/           Architecture and Blender pipeline guides
 ```
 
 The engine is a class library. `Hyperion.Sandbox` is a small executable that
 references it and acts as the development playground for new engine features.
+
+See [Blender to Hyperion](docs/BLENDER_GLTF_PIPELINE.md) for export and runtime
+loading instructions, and [Architecture](docs/ARCHITECTURE.md) for ownership
+and scalability decisions.
 
 ## Rendering roadmap
 
 - [x] Window, OpenGL context, and frame loop
 - [x] Transformable scene entities
 - [x] Lit primitive geometry
+- [x] Cook–Torrance metallic/roughness shading
 - [x] Camera and input system
-- [ ] glTF 2.0 model and texture import
-- [ ] Physically based metallic/roughness BRDF
+- [x] glTF 2.0 geometry and material-factor import
+- [ ] glTF textures, hierarchy, and animation
+- [ ] Texture-backed PBR materials
 - [ ] HDR sky and image-based lighting
 - [ ] Directional and local-light shadows
 - [ ] Render graph and HDR framebuffers

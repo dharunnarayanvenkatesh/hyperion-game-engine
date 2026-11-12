@@ -1,3 +1,4 @@
+using Hyperion.Engine.Assets;
 using Hyperion.Engine.Graphics;
 using Hyperion.Engine.Scene;
 using OpenTK.Graphics.OpenGL4;
@@ -32,6 +33,8 @@ public abstract class EngineApplication : GameWindow
 
     protected World World { get; } = new();
 
+    protected AssetManager Assets { get; } = new();
+
     protected Camera Camera { get; }
 
     protected override void OnLoad()
@@ -42,7 +45,7 @@ public abstract class EngineApplication : GameWindow
         GL.Enable(EnableCap.Multisample);
         GL.Enable(EnableCap.CullFace);
         GL.CullFace(TriangleFace.Back);
-        GL.ClearColor(0.015f, 0.02f, 0.035f, 1f);
+        GL.ClearColor(0.006f, 0.009f, 0.018f, 1f);
 
         _renderer = new Renderer();
         CursorState = CursorState.Normal;
@@ -74,20 +77,20 @@ public abstract class EngineApplication : GameWindow
         SwapBuffers();
     }
 
-    protected override void OnResize(ResizeEventArgs args)
+    protected override void OnResize(ResizeEventArgs e)
     {
-        base.OnResize(args);
-        GL.Viewport(0, 0, args.Width, args.Height);
-        if (args.Height > 0)
+        base.OnResize(e);
+        GL.Viewport(0, 0, e.Width, e.Height);
+        if (e.Height > 0)
         {
-            Camera.AspectRatio = args.Width / (float)args.Height;
+            Camera.AspectRatio = e.Width / (float)e.Height;
         }
     }
 
-    protected override void OnFocusedChanged(FocusedChangedEventArgs args)
+    protected override void OnFocusedChanged(FocusedChangedEventArgs e)
     {
-        base.OnFocusedChanged(args);
-        if (args.IsFocused)
+        base.OnFocusedChanged(e);
+        if (e.IsFocused)
         {
             Camera.ResetMouseDelta();
         }
@@ -97,6 +100,7 @@ public abstract class EngineApplication : GameWindow
     {
         _renderer?.Dispose();
         _renderer = null;
+        Assets.Clear();
         base.OnUnload();
     }
 

@@ -27,10 +27,36 @@ public sealed class Camera
     public Matrix4 ViewMatrix => Matrix4.LookAt(Position, Position + Front, Vector3.UnitY);
 
     public Matrix4 ProjectionMatrix => Matrix4.CreatePerspectiveFieldOfView(
-        MathHelper.DegreesToRadians(60f),
+        FieldOfViewRadians,
         AspectRatio,
-        0.05f,
-        500f);
+        NearPlane,
+        FarPlane);
+
+    public float NearPlane { get; set; } = 0.05f;
+
+    public float FarPlane { get; set; } = 500f;
+
+    public float FieldOfViewRadians { get; set; } = MathHelper.DegreesToRadians(60f);
+
+    public bool IsVisible(BoundingSphere bounds)
+    {
+        var relative = bounds.Center - Position;
+        var forwardDistance = Vector3.Dot(relative, Front);
+        if (forwardDistance + bounds.Radius < NearPlane || forwardDistance - bounds.Radius > FarPlane)
+        {
+            return false;
+        }
+
+        var right = Vector3.Normalize(Vector3.Cross(Front, Vector3.UnitY));
+        var up = Vector3.Normalize(Vector3.Cross(right, Front));
+        var halfVertical = MathF.Max(forwardDistance, 0f) * MathF.Tan(FieldOfViewRadians * 0.5f);
+        var halfHorizontal = halfVertical * AspectRatio;
+        var horizontalDistance = MathF.Abs(Vector3.Dot(relative, right));
+        var verticalDistance = MathF.Abs(Vector3.Dot(relative, up));
+
+        return horizontalDistance <= halfHorizontal + bounds.Radius
+            && verticalDistance <= halfVertical + bounds.Radius;
+    }
 
     public void Update(KeyboardState keyboard, MouseState mouse, double deltaSeconds)
     {

@@ -7,4 +7,10 @@
   <ItemGroup>
     <ProjectReference Include="../Hyperion.Engine/Hyperion.Engine.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="../../assets/sample-triangle.gltf" Link="Assets/sample-triangle.gltf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

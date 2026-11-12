@@ -53,6 +53,11 @@ internal sealed class ShaderProgram : IDisposable
         GL.Uniform1(GetUniformLocation(name), value);
     }
 
+    public void SetInt(string name, int value)
+    {
+        GL.Uniform1(GetUniformLocation(name), value);
+    }
+
     public void Dispose() => GL.DeleteProgram(Handle);
 
     private int GetUniformLocation(string name)

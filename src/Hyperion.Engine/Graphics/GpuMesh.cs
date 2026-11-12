@@ -4,15 +4,34 @@ namespace Hyperion.Engine.Graphics;
 
 internal sealed class GpuMesh : IDisposable
 {
-    public GpuMesh(float[] vertices)
+    private readonly bool _usesIndices;
+
+    public GpuMesh(MeshData data)
     {
-        VertexCount = vertices.Length / 6;
+        VertexCount = data.Vertices.Length / 6;
+        IndexCount = data.Indices.Length;
+        _usesIndices = IndexCount > 0;
         VertexArray = GL.GenVertexArray();
         VertexBuffer = GL.GenBuffer();
 
         GL.BindVertexArray(VertexArray);
         GL.BindBuffer(BufferTarget.ArrayBuffer, VertexBuffer);
-        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+        GL.BufferData(
+            BufferTarget.ArrayBuffer,
+            data.Vertices.Length * sizeof(float),
+            data.Vertices,
+            BufferUsageHint.StaticDraw);
+
+        if (_usesIndices)
+        {
+            IndexBuffer = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, IndexBuffer);
+            GL.BufferData(
+                BufferTarget.ElementArrayBuffer,
+                data.Indices.Length * sizeof(uint),
+                data.Indices,
+                BufferUsageHint.StaticDraw);
+        }
 
         var stride = 6 * sizeof(float);
         GL.EnableVertexAttribArray(0);
@@ -27,17 +46,33 @@ internal sealed class GpuMesh : IDisposable
 
     public int VertexBuffer { get; }
 
+    public int IndexBuffer { get; }
+
     public int VertexCount { get; }
+
+    public int IndexCount { get; }
 
     public void Draw()
     {
         GL.BindVertexArray(VertexArray);
-        GL.DrawArrays(PrimitiveType.Triangles, 0, VertexCount);
+        if (_usesIndices)
+        {
+            GL.DrawElements(PrimitiveType.Triangles, IndexCount, DrawElementsType.UnsignedInt, 0);
+        }
+        else
+        {
+            GL.DrawArrays(PrimitiveType.Triangles, 0, VertexCount);
+        }
     }
 
     public void Dispose()
     {
         GL.DeleteBuffer(VertexBuffer);
+        if (IndexBuffer != 0)
+        {
+            GL.DeleteBuffer(IndexBuffer);
+        }
+
         GL.DeleteVertexArray(VertexArray);
     }
 }

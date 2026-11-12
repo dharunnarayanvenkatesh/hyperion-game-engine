@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="OpenTK" Version="4.9.4" />
+    <PackageVersion Include="SharpGLTF.Core" Version="1.0.7" />
+  </ItemGroup>
+</Project>
