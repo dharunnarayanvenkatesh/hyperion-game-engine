@@ -6,5 +6,6 @@
   <ItemGroup>
     <PackageVersion Include="OpenTK" Version="4.9.4" />
     <PackageVersion Include="SharpGLTF.Core" Version="1.0.7" />
+    <PackageVersion Include="StbImageSharp" Version="2.30.16" />
   </ItemGroup>
 </Project>

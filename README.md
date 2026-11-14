@@ -24,20 +24,48 @@ testable layer at a time.
 - Depth testing and back-face culling
 - 4x multisample anti-aliasing
 - Configurable real-time point lights
+- Directional sunlight with 2048×2048 depth shadows and 3×3 PCF filtering
 - Cook–Torrance metallic/roughness PBR shading
 - Metallic and roughness material inputs
 - ACES-style tone mapping and gamma correction
 - Separate reusable engine and sandbox projects
 - Cached `.gltf`/`.glb` geometry and PBR-factor import
+- Texture-backed glTF base-color and metallic/roughness materials
 - Automatic mesh bounds, spatial partitioning, and camera culling
+- Scoped CPU profiler and asynchronous OpenGL GPU timings
+- Live FPS, memory, draw-call, and triangle diagnostics
+- JSON frame-debugger captures with ordered draw submissions
+- Structured console and JSONL logging
+- Automatic crash reports with exception, runtime, memory, and recent-log context
 - Central package versions, strict analyzers, and repository-wide code style
 
 ## Screenshot
 
-![Hyperion PBR Laboratory](docs/images/hyperion-pbr-laboratory.png)
+![Hyperion PBR Laboratory with directional shadows](docs/images/hyperion-pbr-shadows.png)
 
 The current PBR laboratory renders a polished hero sphere, four material
 samples, an animated light rig, a glTF pipeline fixture, and a graphite stage.
+
+## Simple game
+
+`Hyperion.SimpleGame` is a small playable Crystal Collector built entirely with
+the engine. Move the blue cube around the arena and collect all five gold
+crystals.
+
+![Hyperion Crystal Collector](docs/images/hyperion-crystal-collector-shadows.png)
+
+Run it with:
+
+```powershell
+dotnet run --project src/Hyperion.SimpleGame
+```
+
+| Input | Action |
+| --- | --- |
+| `W`, `A`, `S`, `D` or arrow keys | Move the player |
+| `R` | Restart after winning |
+| `F9` | Capture a frame-debugger report |
+| `Escape` | Close the game |
 
 ## Requirements
 
@@ -70,6 +98,7 @@ dotnet build Hyperion.slnx
 | Hold right mouse button + move | Look around |
 | `Space` | Move up |
 | `Left Shift` | Move down |
+| `F9` | Capture a frame-debugger report |
 | `Escape` | Close the sandbox |
 
 ## Project structure
@@ -92,7 +121,8 @@ references it and acts as the development playground for new engine features.
 
 See [Blender to Hyperion](docs/BLENDER_GLTF_PIPELINE.md) for export and runtime
 loading instructions, and [Architecture](docs/ARCHITECTURE.md) for ownership
-and scalability decisions.
+and scalability decisions. See [Diagnostics](docs/DIAGNOSTICS.md) for profiler,
+frame-capture, logging, memory, and crash-report details.
 
 ## Rendering roadmap
 
@@ -103,9 +133,10 @@ and scalability decisions.
 - [x] Camera and input system
 - [x] glTF 2.0 geometry and material-factor import
 - [ ] glTF textures, hierarchy, and animation
-- [ ] Texture-backed PBR materials
+- [x] Texture-backed PBR materials
 - [ ] HDR sky and image-based lighting
-- [ ] Directional and local-light shadows
+- [x] Directional-light shadow maps with PCF filtering
+- [ ] Point-light and spot-light shadows
 - [ ] Render graph and HDR framebuffers
 - [ ] Bloom, SSAO, TAA, and color grading
 - [ ] Skeletal animation and particles

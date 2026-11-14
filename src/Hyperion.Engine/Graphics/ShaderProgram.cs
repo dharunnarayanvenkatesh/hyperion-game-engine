@@ -48,6 +48,11 @@ internal sealed class ShaderProgram : IDisposable
         GL.Uniform3(GetUniformLocation(name), value);
     }
 
+    public void SetVector2(string name, Vector2 value)
+    {
+        GL.Uniform2(GetUniformLocation(name), value);
+    }
+
     public void SetFloat(string name, float value)
     {
         GL.Uniform1(GetUniformLocation(name), value);

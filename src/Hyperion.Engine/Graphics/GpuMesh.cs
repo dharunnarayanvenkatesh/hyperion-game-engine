@@ -8,7 +8,7 @@ internal sealed class GpuMesh : IDisposable
 
     public GpuMesh(MeshData data)
     {
-        VertexCount = data.Vertices.Length / 6;
+        VertexCount = data.Vertices.Length / data.VertexStride;
         IndexCount = data.Indices.Length;
         _usesIndices = IndexCount > 0;
         VertexArray = GL.GenVertexArray();
@@ -33,11 +33,17 @@ internal sealed class GpuMesh : IDisposable
                 BufferUsageHint.StaticDraw);
         }
 
-        var stride = 6 * sizeof(float);
+        var stride = data.VertexStride * sizeof(float);
         GL.EnableVertexAttribArray(0);
         GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, stride, 0);
         GL.EnableVertexAttribArray(1);
         GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, stride, 3 * sizeof(float));
+
+        if (data.VertexStride >= 8)
+        {
+            GL.EnableVertexAttribArray(2);
+            GL.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, false, stride, 6 * sizeof(float));
+        }
 
         GL.BindVertexArray(0);
     }
@@ -51,6 +57,8 @@ internal sealed class GpuMesh : IDisposable
     public int VertexCount { get; }
 
     public int IndexCount { get; }
+
+    public int TriangleCount => (_usesIndices ? IndexCount : VertexCount) / 3;
 
     public void Draw()
     {

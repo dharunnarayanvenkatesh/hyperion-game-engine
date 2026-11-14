@@ -35,11 +35,15 @@ resources. Geometry is uploaded lazily when first visible.
 - Generated smooth normals when normals are absent
 - Multiple meshes and primitives
 - Base-color, metallic, and roughness factors
+- UV0 texture coordinates
+- Embedded and external PNG/JPEG images
+- sRGB base-color textures
+- Linear metallic/roughness textures using glTF's green/blue channel layout
 - Automatic bounds for culling
 
 ## Next asset-pipeline layers
 
-- Texture coordinates and base-color/normal/ORM textures
+- Normal, occlusion, and emissive textures
 - Node hierarchy transforms
 - Tangents and normal mapping
 - Skeletal animation and morph targets

@@ -41,6 +41,12 @@ internal sealed class SandboxGame() : EngineApplication("Hyperion Engine — PBR
 
     private void CreateLighting()
     {
+        World.CreateDirectionalLight(
+            new Vector3(-0.5f, -1f, -0.35f),
+            new Vector3(1f, 0.9f, 0.76f),
+            intensity: 2.4f,
+            shadowExtent: 18f);
+
         World.CreatePointLight(
             new Vector3(-3.8f, 4.5f, 4.5f),
             new Vector3(1.0f, 0.78f, 0.58f),

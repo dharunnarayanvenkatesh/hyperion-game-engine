@@ -6,5 +6,6 @@
   <ItemGroup>
     <PackageReference Include="OpenTK" />
     <PackageReference Include="SharpGLTF.Core" />
+    <PackageReference Include="StbImageSharp" />
   </ItemGroup>
 </Project>

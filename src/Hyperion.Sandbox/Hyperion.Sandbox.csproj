@@ -12,5 +12,8 @@
     <Content Include="../../assets/sample-triangle.gltf" Link="Assets/sample-triangle.gltf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="../../docs/images/hyperion-pbr-laboratory.png" Link="Assets/hyperion-pbr-laboratory.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

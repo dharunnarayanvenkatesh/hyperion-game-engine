@@ -7,11 +7,14 @@ public sealed class World
 {
     private readonly List<Entity> _entities = [];
     private readonly List<PointLight> _pointLights = [];
+    private readonly List<DirectionalLight> _directionalLights = [];
     private readonly WorldPartition _partition = new();
 
     public IReadOnlyList<Entity> Entities => _entities;
 
     public IReadOnlyList<PointLight> PointLights => _pointLights;
+
+    public IReadOnlyList<DirectionalLight> DirectionalLights => _directionalLights;
 
     public Entity CreateEntity(string name)
     {
@@ -29,6 +32,17 @@ public sealed class World
     {
         var light = new PointLight(position, color, intensity);
         _pointLights.Add(light);
+        return light;
+    }
+
+    public DirectionalLight CreateDirectionalLight(
+        Vector3 direction,
+        Vector3 color,
+        float intensity,
+        float shadowExtent = 18f)
+    {
+        var light = new DirectionalLight(direction, color, intensity, shadowExtent);
+        _directionalLights.Add(light);
         return light;
     }
 }

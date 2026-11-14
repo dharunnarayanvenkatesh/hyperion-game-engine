@@ -98,6 +98,22 @@ public sealed class Camera
 
     public void ResetMouseDelta() => _skipMouseDelta = true;
 
+    public void SetPose(Vector3 position, Vector3 target)
+    {
+        var direction = target - position;
+        if (direction.LengthSquared < 0.000001f)
+        {
+            throw new ArgumentException("The camera target must differ from its position.", nameof(target));
+        }
+
+        Position = position;
+        direction = Vector3.Normalize(direction);
+        _pitch = MathHelper.RadiansToDegrees(MathF.Asin(direction.Y));
+        _yaw = MathHelper.RadiansToDegrees(MathF.Atan2(direction.Z, direction.X));
+        UpdateVectors();
+        ResetMouseDelta();
+    }
+
     private void UpdateVectors()
     {
         var yaw = MathHelper.DegreesToRadians(_yaw);

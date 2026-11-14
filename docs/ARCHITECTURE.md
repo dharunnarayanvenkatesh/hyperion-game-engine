@@ -13,7 +13,11 @@ WorldPartition → coarse render candidates
       ↓
 Camera bounds test → visible entities
       ↓
+Directional light → depth-only ShadowMap pass
+      ↓
 Renderer → lazily cached GpuMesh → OpenGL
+      ↓
+Diagnostics → CPU/GPU timings + frame capture + memory/log/crash artifacts
 ```
 
 ## Ownership rules
@@ -22,6 +26,9 @@ Renderer → lazily cached GpuMesh → OpenGL
 - `World` owns entities, lights, and the spatial partition.
 - `Entity` is a small identity plus explicit components.
 - `Renderer` owns GPU objects and disposes them with the graphics context.
+- `ShadowMap` owns the directional-light depth texture and framebuffer.
+- `EngineDiagnostics` owns profiler queries and runtime diagnostic snapshots.
+- `HyperionLog` and `CrashReporter` own process-wide diagnostic artifacts.
 - Sandbox/game projects compose scenes but do not reach into renderer internals.
 
 ## Scaling strategy
